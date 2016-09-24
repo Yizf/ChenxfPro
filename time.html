@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>time!</title>
+	<style type="text/css">
+		#main{
+			width:400px;
+			height:400px;
+			background-color: #AAA;
+			border-radius:200px;
+			font-size: 30px;
+			color: #FFF;
+			/*background-image: url(time.jpg);*/
+		}
+		.zheng{
+			width:10px;
+			height:10px;
+			border-radius:5px;
+			background-color:#FF0000;
+			position: absolute;
+			top:67px;
+			left:200px;
+			transform-origin:50% 1420%;
+			transform:rotate(30deg);
+		}
+
+	</style>
+</head>
+<script type="text/javascript">
+	function datetime(){
+		var date = new Date();
+		var hour = (date.getHours()%12)/12*360;
+		var mins = date.getMinutes()/60*360;
+		var sec = date.getSeconds()/60*360;
+		var zheng1 = document.getElementById("zheng1");
+		var zheng2 = document.getElementById("zheng2");
+		var zheng3 = document.getElementById("zheng3");
+		zheng1.style.transform = "rotate("+hour+"deg)";
+		zheng2.style.transform = "rotate("+mins+"deg)";
+		zheng3.style.transform = "rotate("+sec+"deg)";
+		setTimeout("datetime()",500);
+	}window.onload=datetime;
+
+	//测试
+	/*var n1=0,n2=0,n3=0;
+	function yuan(){
+		var zheng1 = document.getElementById("zheng1");
+		var zheng2 = document.getElementById("zheng2");
+		var zheng3 = document.getElementById("zheng3");
+		zheng1.style.transform = "rotate("+n1+"deg)";
+		zheng2.style.transform = "rotate("+n2+"deg)";
+		zheng3.style.transform = "rotate("+n3+"deg)";
+		n1+=2;
+		n2+=2;
+		n3+=2;
+		setTimeout("yuan()",20);
+	}window.onload=yuan;*/
+
+</script>
+<body>
+<div id="main">
+	<div style="margin:auto;width:30px;height:30px;">12</div>
+	<div style="margin:150px 15px;width:30px;height:30px;float:left;">9</div>
+	<div style="margin:150px auto;width:30px;height:30px;float:right;">3</div>
+	<div style="clear:both;"></div>
+	<div style="margin:auto;width:30px;height:30px;">6</div>
+	<div id="zheng1" style="top:95px;transform-origin:50% 1150%;" class="zheng"></div>
+	<div id="zheng2" style="top:83px;transform-origin:50% 1270%;background-color:#FF3300;" class="zheng"></div>
+	<div id="zheng3" style="background-color:#FF6600;" class="zheng"></div>
+</div>	
+</body>
+</html>
