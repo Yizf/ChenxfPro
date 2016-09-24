@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>win10风格的日历(21号)</title>
+	<style type="text/css">
+		body{
+			font-family:"幼圆";
+		}
+		span{
+			margin:0px;
+			display:-moz-inline-box;
+			display:inline-block;
+			width:44px;
+			height:44px;
+			line-height:40px;
+			text-align:center;
+		}
+		#box{
+			width: 360px;
+			height: 500px;
+			background-color: #555555;
+			margin: auto;
+		}
+		#top{
+			width: 360px;
+			height: 110px;
+			border-bottom: #757575 1px solid;
+		}
+		#ddate{
+			padding: 18px 0 8px 20px;
+			font-size: 46px;
+			color: #FFF;
+		}
+		#ydate{
+			padding: 0 0 10px 20px;
+			font-size: 15px;
+			color: #FFB900;
+		}
+		
+		#main{
+			width: 360px;
+			height: 360px;
+			border-bottom: #757575 1px solid;
+		}
+		#mtdiv{
+			width:360px;
+			height:40px;
+		}
+		#mmdiv{
+			width:310px;
+			height:320px;
+			color:#FFF;
+			margin:auto;
+		}
+		#mldiv{
+			padding: 15px 0 0 40px;
+			font-size: 15px;
+			color: #FFF;
+			width: 100px;
+			height:25px;
+			float: left;
+		}
+		#mrdiv{
+			padding: 10px 0 0 40px;
+			font-size: 25px;
+			width: 100px;
+			height:30px;
+			float: right;
+		}
+		.btn{
+			color: #FFF;
+			border:none;
+			background-color: #555555;
+		}
+	</style>
+</head>
+<script type="text/javascript">
+	function showtime(){
+		var date1 = new Date(); 
+		var hour = date1.getHours();
+		var mins = date1.getMinutes();
+		var sec = date1.getSeconds();
+		if(hour<10)
+			hour = "0"+hour;
+		if(mins<10)
+			mins = "0"+mins;
+		if(sec<10)
+			sec = "0"+sec;
+		document.getElementById("ddate").innerHTML = hour+":"+mins+":"+sec;
+		document.getElementById("ydate").innerHTML = date1.getFullYear()+"年"+(date1.getMonth()+1)+"月"+date1.getDate()+"日";
+		setTimeout("showtime()",1000);
+	}
+	var date = new Date();
+	var y = date.getFullYear();//读取当前显示的年份
+	var m = date.getMonth();//用于读取当前显示的月份
+	function showrili(month,year){
+		var str;//储存日历
+		var n = 0;//控制换行
+		var months = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+		if(y%4==0&&y%100!=0||y%400==0)
+			months[1] = 29;//闰年
+		var wek = new Date();
+		wek.setFullYear(year,month,1);
+		var week = wek.getDay();//计算1号是星期几
+		var lastmonth;//上个月显示天数的计算
+		if(month==0){
+			lastmonth = months[11]-week+1;
+		}else{
+			lastmonth = months[month-1]-week+1;
+		}
+		str = "<span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><br>";
+		for (var i = 0; i < week; i++) {
+			str += "<span style='color:#BBB'>"+lastmonth+"</span>";
+			lastmonth++;
+			n++;
+		}//补齐前面
+		for (var i = 1; i <= months[month]; i++) {
+			if(n == 7){
+				str += "<br>";
+				n=0;
+			}
+			if(i==date.getDate()&&month==date.getMonth()&&year==date.getFullYear())
+				str += "<span style='background-color:#FFB900'>"+i+"</span>";
+			else
+				str += "<span>"+i+"</span>";
+			n++;
+		}//当前月份
+		if(n<7){
+			for (var i = 1; i <= 7-n; i++) {
+				str += "<span style='color:#BBB'>"+i+"</span>";
+			}
+		}//补齐后面
+		document.getElementById("mmdiv").innerHTML = str;
+		document.getElementById("mldiv").innerHTML = year+"年"+(month+1)+"月";
+	}window.onload=function(){showtime();showrili(m,y);};
+	function last(){
+		if(m==0){
+			m = 12;
+			y--;
+		}
+		m--;
+		showrili(m,y);
+	}
+	function next(){
+		if(m==11){
+			m = -1;
+			y++;
+		}
+		m++;
+		showrili(m,y);
+	}
+</script>
+<body>
+	<div id="box">
+		<div id="top">
+			<div id="ddate"></div>
+			<div id="ydate"></div>
+		</div>
+		<div id="main">
+			<div id="mtdiv">
+				<div id="mldiv"></div>
+				<div id="mrdiv">
+					<form>
+						<input type="button" value="<" name="" onclick="last()" class="btn">
+						<input type="button" value=">" name="" onclick="next()" class="btn">
+					</form>	
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+			<div id="mmdiv"></div>
+		</div>
+	</div>
+</body>
+</html>
